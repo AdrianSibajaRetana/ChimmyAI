@@ -1,1 +1,3 @@
-# ChimmyAI
+# Chimmy AI
+
+TODO: Añadir descripción.
