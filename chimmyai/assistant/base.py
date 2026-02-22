@@ -15,7 +15,7 @@ class AssistantOrchestrator(ABC):
     """
 
     @abstractmethod
-    def handle_voice_interaction(self) -> None:
+    async def handle_voice_interaction(self) -> None:
         """
         Ejecuta el flujo completo:
 

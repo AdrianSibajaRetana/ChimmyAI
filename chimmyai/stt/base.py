@@ -2,13 +2,13 @@
 from abc import ABC, abstractmethod
 
 
-class BaseSTT(ABC):
+class SpeechToText(ABC):
     """Contrato para implementaciones de Speech-to-Text.
 
     Equivalente en C#: interface ISpeechToText
     """
 
     @abstractmethod
-    def transcribe(self, audio_data: bytes) -> str:
+    async def transcribe(self, audio_data: bytes) -> str:
         """Convierte audio en texto."""
         ...

@@ -6,31 +6,34 @@ Asistente personal por voz similar a Alexa, diseñado como proyecto educativo pa
 
 ```
 ChimmyAI/
-├── main.py                   # Punto de entrada (CLI)
-├── requirements.txt          # Dependencias
+├── main.py                          # Punto de entrada (CLI)
+├── requirements.txt                 # Dependencias
 ├── chimmyai/
 │   ├── __init__.py
-│   ├── config.py             # Configuración centralizada
+│   ├── config.py                    # Configuración centralizada
 │
-│   ├── audio/                # Infraestructura de audio
+│   ├── audio/                       # Infraestructura de audio
 │   │   ├── __init__.py
-│   │   └── base.py           # Interfaz abstracta
+│   │   ├── base.py                  # Interfaz abstracta
+│   │   └── sounddevice_audio.py     # Implementación con sounddevice
 │
-│   ├── stt/                  # Speech-to-Text
+│   ├── stt/                         # Speech-to-Text
 │   │   ├── __init__.py
-│   │   └── base.py           # Interfaz abstracta
+│   │   ├── base.py                  # Interfaz abstracta
+│   │   └── faster_whisper_stt.py    # Implementación con faster-whisper
 │
-│   ├── llm/                  # Modelo de lenguaje
+│   ├── llm/                         # Modelo de lenguaje
 │   │   ├── __init__.py
-│   │   └── base.py           # Interfaz abstracta
+│   │   └── base.py                  # Interfaz abstracta
 │
-│   ├── tts/                  # Text-to-Speech
+│   ├── tts/                         # Text-to-Speech
 │   │   ├── __init__.py
-│   │   └── base.py           # Interfaz abstracta
+│   │   └── base.py                  # Interfaz abstracta
 │
-│   └── assistant/            # Caso de uso principal
+│   └── assistant/                   # Caso de uso principal
 │       ├── __init__.py
-│       └── orchestrator.py   # Orquestador del flujo completo
+│       ├── base.py                  # Interfaz abstracta
+│       └── assistant_orchestrator.py # Orquestador del flujo completo
 ```
 
 ## Pipeline
