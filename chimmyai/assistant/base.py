@@ -15,7 +15,7 @@ class AssistantOrchestrator(ABC):
     """
 
     @abstractmethod
-    async def handle_voice_interaction(self) -> None:
+    def handle_voice_interaction(self) -> None:
         """
         Ejecuta el flujo completo:
 
@@ -30,7 +30,7 @@ class AssistantOrchestrator(ABC):
         ...
 
     @abstractmethod
-    async def handle_text_interaction(self, text: str) -> str:
+    def handle_text_interaction(self, text: str) -> str:
         """
         Maneja una interacción basada en texto (útil para CLI,
         testing o futuras APIs HTTP).

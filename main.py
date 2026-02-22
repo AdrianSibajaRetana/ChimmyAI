@@ -1,23 +1,15 @@
-"""
-ChimmyAI - Asistente personal por voz.
-Ejecutar con: python main.py
-"""
-from chimmyai.config import Config
+from chimmyai.assistant.AssistantOrchestrator import MainAssistantOrchestrator
+from chimmyai.audio.sounddevice_audio import SoundDeviceAudioHandler
 
 def main():
-    print(f"{Config.APP_NAME} v{Config.VERSION}")
-    print("Pipeline: Audio → STT → LLM → TTS → Audio")
-    print()
-
-    # TODO: Implementar pipeline completo
-    # 1. audio_handler.record()    → capturar audio
-    # 2. stt.transcribe(audio)     → convertir a texto
-    # 3. llm.generate(text)        → obtener respuesta
-    # 4. tts.synthesize(response)  → convertir a audio
-    # 5. audio_handler.play(audio) → reproducir respuesta
-
-    print("¡Hola! Soy Chimmy. (Pipeline pendiente de implementación)")
-
-
+    ## Paso 1: Crear servicios    
+    AudioHandler = SoundDeviceAudioHandler()
+    
+    ## Paso 2: Subscribir servicios al main orchestrator 
+    Orchestrator = MainAssistantOrchestrator(AudioHandler)
+    
+    ## Paso 3: Utilizar el orquestador
+    Orchestrator.handle_voice_interaction()
+    
 if __name__ == "__main__":
     main()

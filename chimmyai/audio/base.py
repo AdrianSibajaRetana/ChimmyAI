@@ -1,8 +1,7 @@
 """Interfaz abstracta para manejo de audio."""
 from abc import ABC, abstractmethod
 
-
-class BaseAudioHandler(ABC):
+class AudioHandler(ABC):
     """Contrato para implementaciones de captura/reproducción de audio.
 
     Equivalente en C#: interface IAudioHandler
