@@ -39,10 +39,17 @@ ChimmyAI/
 Micrófono → STT → LLM → TTS → Altavoz
 ```
 
+## Instalación
+
+```bash
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+```
+
 ## Ejecutar
 
 ```bash
+.\venv\Scripts\activate
 python main.py
 ```
-  git config --global user.email "you@example.com"
-  git config --global user.name "Your Name"
