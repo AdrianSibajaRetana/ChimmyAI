@@ -44,3 +44,5 @@ Micrófono → STT → LLM → TTS → Altavoz
 ```bash
 python main.py
 ```
+  git config --global user.email "you@example.com"
+  git config --global user.name "Your Name"
