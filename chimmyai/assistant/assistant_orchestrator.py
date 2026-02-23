@@ -1,13 +1,15 @@
 from chimmyai.audio.base import AudioHandler
 from chimmyai.stt.base import SpeechToText
+from chimmyai.tts.base import TextToSpeech
 
 from .base import AssistantOrchestrator
 
 class MainAssistantOrchestrator(AssistantOrchestrator):
     
-    def __init__(self, audio: AudioHandler, stt: SpeechToText):
+    def __init__(self, audio: AudioHandler, stt: SpeechToText, tts: TextToSpeech):
         self.audioHandler = audio
         self.speechToText = stt
+        self.textToSpeech = tts
 
     async def handle_voice_interaction(self) -> None:
         print("MainAssistantOrchestrator: Grabando entrada de usuario")
@@ -21,5 +23,6 @@ class MainAssistantOrchestrator(AssistantOrchestrator):
         print("▶ MainAssistantOrchestrator: Reproduciendo respuesta...")
         await self.audioHandler.play(audio_bytes)
         
-    def handle_text_interaction(self, text: str) -> str:
-        pass
+        print("▶ MainAssistantOrchestrator: Reproduciendo respuesta TTS...")
+        await self.textToSpeech.synthesize(transcript)
+        

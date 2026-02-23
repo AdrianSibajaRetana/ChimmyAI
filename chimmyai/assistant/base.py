@@ -28,13 +28,3 @@ class AssistantOrchestrator(ABC):
         No debe exponer detalles internos de cada etapa.
         """
         ...
-
-    @abstractmethod
-    def handle_text_interaction(self, text: str) -> str:
-        """
-        Maneja una interacción basada en texto (útil para CLI,
-        testing o futuras APIs HTTP).
-
-        Recibe texto y devuelve texto generado por el modelo.
-        """
-        ...

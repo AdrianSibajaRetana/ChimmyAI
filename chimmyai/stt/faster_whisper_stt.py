@@ -12,8 +12,7 @@ class FasterWhisperSpeechToText(SpeechToText):
     Local Speech-to-Text implementation using faster-whisper.
     """
 
-    def __init__(
-        self,
+    def __init__(self,
         model_size: str = "base",
         device: str = "cpu",
         compute_type: str = "int8",
