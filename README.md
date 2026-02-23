@@ -57,3 +57,76 @@ pip install -r requirements.txt
 .\venv\Scripts\activate
 python main.py
 ```
+
+
+## Notas
+
+### Phase 1 — Cloud API Backend
+
+**Goal:** Turn your assistant into a service.
+
+You build:
+
+```
+POST /ask
+Audio → STT → LLM → TTS → return audio
+```
+
+You'll learn:
+
+- FastAPI
+- REST design
+- Azure hosting
+- Async handling
+- Observability
+- Authentication (very important)
+
+Now you have a real backend.
+
+### Phase 2 — Add Hardware (ESP32)
+
+**Goal:** Constrained device → cloud.
+
+You'll learn:
+
+- HTTPS from microcontrollers
+- Memory limits
+- WiFi handling
+- OTA updates
+- Embedded debugging
+
+This is where it gets fun.
+
+### Phase 3 — Local Wake Word
+
+**Goal:** Move one piece local.
+
+Add wake word detection running on ESP32 or Raspberry Pi.
+
+You'll learn:
+
+- Real-time audio processing
+- DSP basics
+- Event loops
+
+### Phase 4 — Move STT Local
+
+**Goal:** Hybrid architecture.
+
+Now:
+
+- Local STT
+- Cloud LLM
+- Local TTS
+
+You'll learn:
+
+- Model deployment
+- CPU/GPU tradeoffs
+- Latency tuning
+
+### Phase 5 — Fully Local Brain
+
+**Goal:** Sovereign AI.
+
+Now you're basically building your own Alexa competitor.
