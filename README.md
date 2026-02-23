@@ -28,7 +28,8 @@ ChimmyAI/
 │
 │   ├── tts/                         # Text-to-Speech
 │   │   ├── __init__.py
-│   │   └── base.py                  # Interfaz abstracta
+│   │   ├── base.py                  # Interfaz abstracta
+│   │   └── coqui_tts.py            # Implementación con Coqui TTS
 │
 │   └── assistant/                   # Caso de uso principal
 │       ├── __init__.py

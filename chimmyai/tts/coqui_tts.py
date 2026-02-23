@@ -36,13 +36,7 @@ class CoquiTTS(TextToSpeech):
         Convierte texto a WAV bytes.
         Coqui es síncrono → lo ejecutamos en thread pool.
         """
-        loop = asyncio.get_running_loop()
-
-        # Ejecutar TTS blocking en otro thread
-        return await loop.run_in_executor(
-            None,
-            lambda: self._synthesize_sync(text)
-        )
+        return await asyncio.to_thread(self._synthesize_sync, text)
 
     def _synthesize_sync(self, text: str) -> bytes:
         self._ensure_model()
