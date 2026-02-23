@@ -1,4 +1,5 @@
 import io
+import asyncio
 import numpy as np
 import soundfile as sf
 from faster_whisper import WhisperModel
@@ -26,16 +27,28 @@ class FasterWhisperSpeechToText(SpeechToText):
             - float32 (high precision)
         """
 
-        self.model = WhisperModel(
-            model_size,
-            device=device,
-            compute_type=compute_type,
-        )
+        self.model_size = model_size
+        self.device = device
+        self.compute_type = compute_type
+        self.model: WhisperModel | None = None
+
+    def _ensure_model(self) -> None:
+        """Lazy-loads the Whisper model on first use."""
+        if self.model is None:
+            self.model = WhisperModel(
+                self.model_size,
+                device=self.device,
+                compute_type=self.compute_type,
+            )
 
     async def transcribe(self, audio_data: bytes) -> str:
         """
         Transcribe WAV bytes to text.
         """
+        return await asyncio.to_thread(self._transcribe_sync, audio_data)
+
+    def _transcribe_sync(self, audio_data: bytes) -> str:
+        self._ensure_model()
 
         # Convert WAV bytes → numpy float32 array
         buffer = io.BytesIO(audio_data)

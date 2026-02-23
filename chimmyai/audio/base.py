@@ -8,11 +8,11 @@ class AudioHandler(ABC):
     """
 
     @abstractmethod
-    def record(self) -> bytes:
+    async def record(self) -> bytes:
         """Captura audio del micrófono y devuelve los datos."""
         ...
 
     @abstractmethod
-    def play(self, audio_data: bytes) -> None:
+    async def play(self, audio_data: bytes) -> None:
         """Reproduce datos de audio por el altavoz."""
         ...

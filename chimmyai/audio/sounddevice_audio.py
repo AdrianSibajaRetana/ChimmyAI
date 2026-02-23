@@ -1,4 +1,5 @@
 import io
+import asyncio
 import sounddevice as sd
 import soundfile as sf
 
@@ -18,9 +19,14 @@ class SoundDeviceAudioHandler(AudioHandler):
         self.channels = channels
         self.duration = duration
 
-    def record(self) -> bytes:
+    # ---------- RECORD ----------
+    async def record(self) -> bytes:
         """Graba audio y devuelve WAV PCM_16 bytes."""
 
+        return await asyncio.to_thread(self._record_sync)
+    
+    def _record_sync(self) -> bytes:
+        
         frames = int(self.duration * self.sample_rate)
 
         try:
@@ -45,10 +51,13 @@ class SoundDeviceAudioHandler(AudioHandler):
         buffer.seek(0)
 
         return buffer.read()
-
-    def play(self, audio_data: bytes) -> None:
+        
+    # ---------- PLAY ----------
+    async def play(self, audio_data: bytes) -> None:
         """Reproduce audio WAV desde bytes."""
-
+        return await asyncio.to_thread(self._play_sync, audio_data)
+                
+    def _play_sync(self, audio_data: bytes) -> None:
         try:
             buffer = io.BytesIO(audio_data)
             data, samplerate = sf.read(buffer, dtype="int16")

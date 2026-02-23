@@ -11,7 +11,7 @@ class MainAssistantOrchestrator(AssistantOrchestrator):
 
     async def handle_voice_interaction(self) -> None:
         print("MainAssistantOrchestrator: Grabando entrada de usuario")
-        audio_bytes = self.audioHandler.record()
+        audio_bytes = await self.audioHandler.record()
         
         print("MainAssistantOrchestrator: Transcribiendo...")
         transcript = await self.speechToText.transcribe(audio_bytes)
@@ -19,7 +19,7 @@ class MainAssistantOrchestrator(AssistantOrchestrator):
         print(f"MainAssistantOrchestrator resultado de la transcripción: {transcript}")
         
         print("▶ MainAssistantOrchestrator: Reproduciendo respuesta...")
-        self.audioHandler.play(audio_bytes)
+        await self.audioHandler.play(audio_bytes)
         
-    def handle_text_interaction(self, text: str) -> None:
+    def handle_text_interaction(self, text: str) -> str:
         pass
