@@ -9,6 +9,6 @@ class TextToSpeech(ABC):
     """
 
     @abstractmethod
-    async def synthesize(self, text: str) -> None:
+    async def synthesize(self, text: str) -> bytes:
         """Convierte texto en datos de audio."""
         ...

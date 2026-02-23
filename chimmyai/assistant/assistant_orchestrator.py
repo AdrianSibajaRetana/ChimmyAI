@@ -16,13 +16,11 @@ class MainAssistantOrchestrator(AssistantOrchestrator):
         audio_bytes = await self.audioHandler.record()
         
         print("MainAssistantOrchestrator: Transcribiendo...")
-        transcript = await self.speechToText.transcribe(audio_bytes)
-        
+        transcript = await self.speechToText.transcribe(audio_bytes)    
         print(f"MainAssistantOrchestrator resultado de la transcripción: {transcript}")
+    
+        print("▶ MainAssistantOrchestrator: Generando TTS Bytes")
+        tts_bytes = await self.textToSpeech.synthesize(transcript)
         
         print("▶ MainAssistantOrchestrator: Reproduciendo respuesta...")
-        await self.audioHandler.play(audio_bytes)
-        
-        print("▶ MainAssistantOrchestrator: Reproduciendo respuesta TTS...")
-        await self.textToSpeech.synthesize(transcript)
-        
+        await self.audioHandler.play(tts_bytes)

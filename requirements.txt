@@ -1,5 +1,7 @@
-numpy==2.4.2
 sounddevice==0.5.5
 soundfile==0.13.1
 faster-whisper==1.2.1
-pyttsx3==2.99
+torch
+torchaudio
+coqui-tts[codec]
+transformers<5
