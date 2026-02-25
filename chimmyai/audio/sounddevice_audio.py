@@ -4,17 +4,23 @@ import sounddevice as sd
 import soundfile as sf
 
 from .base import AudioHandler
+from chimmyai.config import Config
 
 
 class SoundDeviceAudioHandler(AudioHandler):
     """Implementación concreta del AudioHandler usando sounddevice."""
 
-    def __init__(self, sample_rate: int = 16000, channels: int = 1, duration: int = 5):
+    def __init__(self,
+        sample_rate: int = Config.AUDIO_SAMPLE_RATE,
+        channels: int = Config.AUDIO_CHANNELS,
+        duration: int = Config.AUDIO_RECORD_DURATION,
+    ):
         """
         sample_rate: 16kHz (speech optimized)
         channels: 1 (mono)
         duration: segundos por grabación
         """
+        print("SoundDeviceAudioHandler: Inicializando Servicio.")
         self.sample_rate = sample_rate
         self.channels = channels
         self.duration = duration

@@ -10,14 +10,11 @@ from chimmyai.stt.faster_whisper_stt import FasterWhisperSpeechToText
 from chimmyai.tts.coqui_tts import CoquiTTS
 
 async def main():
-    ## Paso 1: Crear servicios    
+    ## Paso 1: Crear servicios
+    print("Main: Inicializando Servicios")
     audio_handler = SoundDeviceAudioHandler()
     
-    stt_handler = FasterWhisperSpeechToText(
-        model_size="base",
-        device="cpu",
-        compute_type="int8",
-    )
+    stt_handler = FasterWhisperSpeechToText()
     
     tts_handler = CoquiTTS()
     

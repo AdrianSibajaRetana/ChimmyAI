@@ -6,6 +6,7 @@ import soundfile as sf
 import trainer.io
 
 from TTS.api import TTS
+from chimmyai.config import Config
 
 # Tacotron2 checkpoints use defaultdict which isn't compatible with
 # torch.load(weights_only=True) in PyTorch >=2.6. Safe since models
@@ -15,33 +16,19 @@ trainer.io._WEIGHTS_ONLY = False
 from .base import TextToSpeech
 
 class CoquiTTS(TextToSpeech):
-    """Implementación concreta usando Coqui TTS."""
-
-    def __init__(self, model_name: str = "tts_models/es/mai/tacotron2-DDC"):
-        """
-        model_name: Modelo español específico.
-        """
-        self.model_name = model_name
-        self.tts: TTS | None = None
+    def __init__(self):
+        print("CoquiTTS: Inicializando Servicio.")
+        self.tts = TTS(Config.TTS_COQUI_MODEL).to(Config.TTS_DEVICE)
         self.sample_rate: int | None = None
 
-    def _ensure_model(self) -> None:
-        """Lazy-loads the TTS model on first use."""
-        if self.tts is None:
-            self.tts = TTS(self.model_name)
-            self.sample_rate = self.tts.synthesizer.output_sample_rate
-
     async def synthesize(self, text: str) -> bytes:
-        """
-        Convierte texto a WAV bytes.
-        Coqui es síncrono → lo ejecutamos en thread pool.
-        """
         return await asyncio.to_thread(self._synthesize_sync, text)
 
     def _synthesize_sync(self, text: str) -> bytes:
-        self._ensure_model()
-
         audio = self.tts.tts(text)
+
+        if self.sample_rate is None:
+            self.sample_rate = self.tts.synthesizer.output_sample_rate
 
         buffer = io.BytesIO()
 
