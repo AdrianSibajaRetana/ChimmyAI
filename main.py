@@ -1,22 +1,32 @@
 import asyncio
 import warnings
+from dotenv import load_dotenv
+
+load_dotenv()
 
 warnings.filterwarnings("ignore", message="dtype.*align", category=DeprecationWarning)
 warnings.filterwarnings("ignore", message="dtype.*align")
 
+from chimmyai.config import Config
 from chimmyai.assistant.assistant_orchestrator import MainAssistantOrchestrator
 from chimmyai.audio.sounddevice_audio import SoundDeviceAudioHandler
-from chimmyai.stt.faster_whisper_stt import FasterWhisperSpeechToText
-from chimmyai.tts.coqui_tts import CoquiTTS
 
 async def main():
     ## Paso 1: Crear servicios
     print("Main: Inicializando Servicios")
     audio_handler = SoundDeviceAudioHandler()
     
-    stt_handler = FasterWhisperSpeechToText()
-    
-    tts_handler = CoquiTTS()
+    ## Revisar si estoy usando los servicios cloud vs locales
+    if Config.USE_CLOUD:
+        from chimmyai.stt.azure_stt import AzureSpeechToText
+        from chimmyai.tts.azure_tts import AzureTextToSpeech
+        stt_handler = AzureSpeechToText()
+        tts_handler = AzureTextToSpeech()
+    else:
+        from chimmyai.stt.faster_whisper_stt import FasterWhisperSpeechToText
+        from chimmyai.tts.coqui_tts import CoquiTTS
+        stt_handler = FasterWhisperSpeechToText()
+        tts_handler = CoquiTTS()
     
     ## Paso 2: Subscribir servicios al main orchestrator 
     orchestrator = MainAssistantOrchestrator(audio_handler, stt_handler, tts_handler)

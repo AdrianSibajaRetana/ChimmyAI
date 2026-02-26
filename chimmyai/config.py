@@ -16,3 +16,7 @@ class Config:
     # TTS (coqui_tts.py)
     TTS_COQUI_MODEL = "tts_models/es/mai/tacotron2-DDC"
     TTS_DEVICE = "cpu"
+    
+    #-----Cloud variables---------#
+    USE_CLOUD = True
+    

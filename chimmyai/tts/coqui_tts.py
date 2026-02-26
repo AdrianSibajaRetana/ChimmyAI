@@ -19,16 +19,13 @@ class CoquiTTS(TextToSpeech):
     def __init__(self):
         print("CoquiTTS: Inicializando Servicio.")
         self.tts = TTS(Config.TTS_COQUI_MODEL).to(Config.TTS_DEVICE)
-        self.sample_rate: int | None = None
+        self.sample_rate: int = self.tts.synthesizer.output_sample_rate
 
     async def synthesize(self, text: str) -> bytes:
         return await asyncio.to_thread(self._synthesize_sync, text)
 
     def _synthesize_sync(self, text: str) -> bytes:
         audio = self.tts.tts(text)
-
-        if self.sample_rate is None:
-            self.sample_rate = self.tts.synthesizer.output_sample_rate
 
         buffer = io.BytesIO()
 
