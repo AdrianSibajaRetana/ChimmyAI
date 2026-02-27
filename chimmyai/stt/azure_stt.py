@@ -6,6 +6,7 @@ from .base import SpeechToText
 class AzureSpeechToText(SpeechToText):
 
     def __init__(self):
+        print("AzureSpeechToText: Inicializando Servicio.")
         key = os.getenv("SPEECH_KEY")
         endpoint = os.getenv("ENDPOINT")
 

@@ -2,11 +2,13 @@ import os
 import asyncio
 import azure.cognitiveservices.speech as speechsdk
 from .base import TextToSpeech
+from chimmyai.config import Config
 
 
 class AzureTextToSpeech(TextToSpeech):
 
     def __init__(self):
+        print("AzureTextToSpeech: Inicializando Servicio.")
         key = os.getenv("SPEECH_KEY")
         endpoint = os.getenv("ENDPOINT")
 
@@ -23,9 +25,9 @@ class AzureTextToSpeech(TextToSpeech):
         self.speech_config.speech_synthesis_language =  "es-ES"
         self.speech_config.speech_synthesis_voice_name = "es-ES-ElviraNeural"
 
-        # Ensure WAV format (16kHz PCM)
+        # Ensure WAV format (24kHz PCM)
         self.speech_config.set_speech_synthesis_output_format(
-            speechsdk.SpeechSynthesisOutputFormat.Riff16Khz16BitMonoPcm
+            getattr(speechsdk.SpeechSynthesisOutputFormat, Config.TTS_AZURE_OUTPUT_FORMAT)
         )
 
     async def synthesize(self, text: str) -> bytes:
