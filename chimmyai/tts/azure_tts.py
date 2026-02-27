@@ -27,7 +27,7 @@ class AzureTextToSpeech(TextToSpeech):
 
         # Ensure WAV format (24kHz PCM)
         self.speech_config.set_speech_synthesis_output_format(
-            getattr(speechsdk.SpeechSynthesisOutputFormat, Config.TTS_AZURE_OUTPUT_FORMAT)
+            speechsdk.SpeechSynthesisOutputFormat.Riff24Khz16BitMonoPcm
         )
 
     async def synthesize(self, text: str) -> bytes:
