@@ -20,3 +20,8 @@ class Config:
     #-----Cloud variables---------#
     USE_CLOUD = True
     
+    #-----OPEN AI variables------#
+    OPENAI_MODEL = "gpt-4o-mini"
+    TEMPERATURE = 0.6
+    MAX_TOKENS = 4096
+    

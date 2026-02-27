@@ -9,6 +9,6 @@ class BaseLLM(ABC):
     """
 
     @abstractmethod
-    async def generate(self, prompt: str) -> str:
+    async def chat(self, prompt: str) -> str:
         """Genera una respuesta a partir de un prompt."""
         ...
