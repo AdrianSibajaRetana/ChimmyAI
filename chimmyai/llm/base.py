@@ -12,3 +12,7 @@ class BaseLLM(ABC):
     async def chat(self, prompt: str) -> str:
         """Genera una respuesta a partir de un prompt."""
         ...
+
+    async def close(self) -> None:
+        """Libera recursos del cliente. Override en subclases si es necesario."""
+        pass

@@ -20,6 +20,10 @@ class MainAssistantOrchestrator(AssistantOrchestrator):
         print("MainAssistantOrchestrator: Transcribiendo...")
         transcript = await self.speechToText.transcribe(audio_bytes)    
         print(f"MainAssistantOrchestrator resultado de la transcripción: {transcript}")
+
+        if not transcript or not transcript.strip():
+            print("MainAssistantOrchestrator: Transcripción vacía, omitiendo respuesta.")
+            return
         
         print("MainAssistantOrchestrator enviando mensaje a LLM...")
         response = await self.llmEngine.chat(transcript)
