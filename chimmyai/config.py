@@ -24,4 +24,7 @@ class Config:
     OPENAI_MODEL = "gpt-4o-mini"
     TEMPERATURE = 0.6
     MAX_TOKENS = 4096
+
+    #-----Tool calling-----------#
+    MAX_TOOL_ROUNDS = 5
     
