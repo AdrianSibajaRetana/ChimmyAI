@@ -88,7 +88,7 @@ class AzureOpenAI(BaseLLM):
                         })
                         continue
 
-                    result = self._tool_registry.execute(
+                    result = await self._tool_registry.execute(
                         tool_call.function.name, **arguments
                     )
                     messages.append({

@@ -27,4 +27,8 @@ class Config:
 
     #-----Tool calling-----------#
     MAX_TOOL_ROUNDS = 5
+
+    #-----Weather tool-----------#
+    DEFAULT_LOCATION = "Santa Ana"
+    DEFAULT_COUNTRY = "Costa Rica"
     

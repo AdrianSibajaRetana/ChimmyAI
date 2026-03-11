@@ -1,5 +1,7 @@
 """Definiciones base para el sistema de herramientas."""
 
+import asyncio
+import inspect
 from dataclasses import dataclass
 from typing import Any, Callable
 
@@ -17,7 +19,7 @@ class Tool:
     parameters : dict
         JSON Schema que describe los argumentos de la herramienta.
     handler : Callable[..., str]
-        Función que ejecuta la herramienta y devuelve un string con el resultado.
+        Función (sync o async) que ejecuta la herramienta y devuelve un string.
     """
     name: str
     description: str
@@ -40,12 +42,14 @@ class ToolRegistry:
     def all_tools(self) -> list[Tool]:
         return list(self._tools.values())
 
-    def execute(self, name: str, **kwargs: Any) -> str:
-        """Ejecuta una herramienta por nombre. Devuelve error como string si falla."""
+    async def execute(self, name: str, **kwargs: Any) -> str:
+        """Ejecuta una herramienta por nombre. Soporta handlers sync y async."""
         tool = self._tools.get(name)
         if tool is None:
             return f"Error: herramienta '{name}' no encontrada."
         try:
+            if inspect.iscoroutinefunction(tool.handler):
+                return await tool.handler(**kwargs)
             return tool.handler(**kwargs)
         except Exception as e:
             return f"Error ejecutando '{name}': {e}"

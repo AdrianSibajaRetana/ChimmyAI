@@ -5,3 +5,4 @@ coqui-tts[codec]==0.27.5
 azure-cognitiveservices-speech==1.48.2
 python-dotenv==1.2.1
 openai==2.24.0
+httpx>=0.27.0
