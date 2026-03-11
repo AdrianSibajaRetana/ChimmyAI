@@ -11,6 +11,7 @@ ChimmyAI/
 ├── chimmyai/
 │   ├── __init__.py
 │   ├── config.py                    # Configuración centralizada
+│   ├── factory.py                   # Fábrica de servicios (cloud/local)
 │
 │   ├── audio/                       # Infraestructura de audio
 │   │   ├── __init__.py
@@ -20,16 +21,35 @@ ChimmyAI/
 │   ├── stt/                         # Speech-to-Text
 │   │   ├── __init__.py
 │   │   ├── base.py                  # Interfaz abstracta
-│   │   └── faster_whisper_stt.py    # Implementación con faster-whisper
+│   │   ├── faster_whisper_stt.py    # Implementación local (faster-whisper)
+│   │   └── azure_stt.py            # Implementación cloud (Azure)
 │
 │   ├── llm/                         # Modelo de lenguaje
 │   │   ├── __init__.py
-│   │   └── base.py                  # Interfaz abstracta
+│   │   ├── base.py                  # Interfaz abstracta
+│   │   ├── azure_openai.py          # Azure OpenAI con tool calling
+│   │   ├── local_llm.py            # Placeholder local
+│   │   └── prompts/
+│   │       └── chimmy_system.txt    # System prompt de ChimmyAI
 │
 │   ├── tts/                         # Text-to-Speech
 │   │   ├── __init__.py
 │   │   ├── base.py                  # Interfaz abstracta
-│   │   └── coqui_tts.py            # Implementación con Coqui TTS
+│   │   ├── coqui_tts.py            # Implementación local (Coqui TTS)
+│   │   └── azure_tts.py            # Implementación cloud (Azure)
+│
+│   ├── tools/                       # Herramientas del LLM (tool calling)
+│   │   ├── __init__.py
+│   │   ├── base.py                  # Tool dataclass + ToolRegistry (sync/async)
+│   │   ├── defaults.py              # Registro por defecto con todas las tools
+│   │   ├── geocode_cache.py         # Cache SQLite de geocodificación
+│   │   ├── get_current_time.py      # Herramienta: fecha y hora actual
+│   │   ├── get_weather.py           # Herramienta: clima actual (Open-Meteo)
+│   │   └── web_search.py           # Herramienta: búsqueda web (placeholder)
+│
+│   ├── data/                        # Datos persistentes
+│   │   ├── __init__.py
+│   │   └── geocode_cache.db         # Cache permanente de geocodificación
 │
 │   └── assistant/                   # Caso de uso principal
 │       ├── __init__.py
@@ -40,7 +60,7 @@ ChimmyAI/
 ## Pipeline
 
 ```
-Micrófono → STT → LLM → TTS → Altavoz
+Micrófono → STT → LLM (+ tool calling) → TTS → Altavoz
 ```
 
 ## Instalación
