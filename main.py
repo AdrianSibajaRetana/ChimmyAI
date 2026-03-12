@@ -1,8 +1,12 @@
 import asyncio
+import logging
 import warnings
 from dotenv import load_dotenv
 
 load_dotenv()
+
+logging.basicConfig(level=logging.INFO, format="%(name)s: %(message)s")
+logging.getLogger("httpx").setLevel(logging.WARNING)
 
 warnings.filterwarnings("ignore", message="dtype.*align", category=DeprecationWarning)
 warnings.filterwarnings("ignore", message="dtype.*align")

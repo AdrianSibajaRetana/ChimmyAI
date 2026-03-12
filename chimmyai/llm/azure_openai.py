@@ -1,11 +1,15 @@
 import os
 import json
+import logging
+from datetime import datetime
 from .base import BaseLLM
 from openai import AsyncAzureOpenAI, APIError
 from chimmyai.config import Config
 from chimmyai.tools.base import ToolRegistry
 from chimmyai.tools.defaults import create_default_registry
 from pathlib import Path
+
+logger = logging.getLogger(__name__)
 
 class AzureOpenAI(BaseLLM):
         def __init__(self):
@@ -28,6 +32,7 @@ class AzureOpenAI(BaseLLM):
 
             self._tool_registry = create_default_registry()
             self._openai_tools = self._build_openai_tools()
+            logger.info("Tools registradas: %s", [t.name for t in self._tool_registry.all_tools()])
 
         def _build_openai_tools(self) -> list[dict] | None:
             """Convierte el ToolRegistry genérico al formato de herramientas de OpenAI."""
@@ -46,8 +51,10 @@ class AzureOpenAI(BaseLLM):
             ]
 
         async def chat(self, prompt: str) -> str:
+            today = datetime.now().strftime("%Y-%m-%d")
+            system_content = f"Fecha actual: {today}\n\n{self.prompt_system_str}"
             messages = [
-                {"role": "system", "content": self.prompt_system_str},
+                {"role": "system", "content": system_content},
                 {"role": "user", "content": prompt},
             ]
 
@@ -72,9 +79,13 @@ class AzureOpenAI(BaseLLM):
                 message = response.choices[0].message
 
                 if not message.tool_calls:
+                    logger.info("LLM respondió sin tool calls (finish_reason=%s)", response.choices[0].finish_reason)
                     return message.content or ""
 
                 # El modelo pidió ejecutar herramientas — resolver y continuar.
+                _Y = "\033[93m"
+                _R = "\033[0m"
+                logger.info(f"{_Y}LLM solicitó tool calls: %s{_R}", [tc.function.name for tc in message.tool_calls])
                 messages.append(message.model_dump())
                 for tool_call in message.tool_calls:
                     try:
@@ -88,9 +99,12 @@ class AzureOpenAI(BaseLLM):
                         })
                         continue
 
+                    logger.info(f"\033[93mTool %s args: %s\033[0m", tool_call.function.name, arguments)
+
                     result = await self._tool_registry.execute(
                         tool_call.function.name, **arguments
                     )
+                    logger.info(f"\033[93mTool %s resultado: %s\033[0m", tool_call.function.name, result[:200])
                     messages.append({
                         "role": "tool",
                         "tool_call_id": tool_call.id,

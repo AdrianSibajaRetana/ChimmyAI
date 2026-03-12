@@ -7,6 +7,11 @@ from .base import AssistantOrchestrator
 
 class MainAssistantOrchestrator(AssistantOrchestrator):
     
+    # ANSI color codes
+    _CYAN = "\033[96m"
+    _GREEN = "\033[92m"
+    _RESET = "\033[0m"
+
     def __init__(self, audio: AudioHandler, stt: SpeechToText, tts: TextToSpeech, llm: BaseLLM):
         self.audioHandler = audio
         self.speechToText = stt
@@ -19,7 +24,7 @@ class MainAssistantOrchestrator(AssistantOrchestrator):
         
         print("MainAssistantOrchestrator: Transcribiendo...")
         transcript = await self.speechToText.transcribe(audio_bytes)    
-        print(f"MainAssistantOrchestrator resultado de la transcripción: {transcript}")
+        print(f"{self._CYAN}MainAssistantOrchestrator resultado de la transcripción: {transcript}{self._RESET}")
 
         if not transcript or not transcript.strip():
             print("MainAssistantOrchestrator: Transcripción vacía, omitiendo respuesta.")
@@ -27,7 +32,7 @@ class MainAssistantOrchestrator(AssistantOrchestrator):
         
         print("MainAssistantOrchestrator enviando mensaje a LLM...")
         response = await self.llmEngine.chat(transcript)
-        print(f"MainAssistantOrchestrator LLM ha respondido: {response}")
+        print(f"{self._GREEN}MainAssistantOrchestrator LLM ha respondido: {response}{self._RESET}")
         
         print("▶ MainAssistantOrchestrator: Generando TTS Bytes")
         tts_bytes = await self.textToSpeech.synthesize(response)

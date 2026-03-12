@@ -31,4 +31,11 @@ class Config:
     #-----Weather tool-----------#
     DEFAULT_LOCATION = "Santa Ana"
     DEFAULT_COUNTRY = "Costa Rica"
+
+    #-----Web search tool--------#
+    SEARCH_MAX_RESULTS = 5
+    SEARCH_DEPTH = "basic"
+    SEARCH_INCLUDE_ANSWER = False
+    SEARCH_LLM_CONTROLS_TOPIC = False
+    SEARCH_LLM_CONTROLS_COUNTRY = False
     
